@@ -72,6 +72,61 @@
   --status-healthy-foreground: #34d399;
   --status-failed: #ef4444;
   --status-failed-foreground: #f87171;
+
+  /* Material/Stitch surface system — additive, alongside the shadcn scheme above.
+   * primary/secondary/background intentionally excluded: those names already
+   * belong to the Electric-Blue scheme and must not be overridden. */
+  --surface: #131316;
+  --surface-dim: #131316;
+  --surface-bright: #39393c;
+  --surface-tint: #adc6ff;
+  --surface-variant: #353438;
+  --surface-container: #1f1f22;
+  --surface-container-low: #1b1b1e;
+  --surface-container-lowest: #0e0e11;
+  --surface-container-high: #2a2a2d;
+  --surface-container-highest: #353438;
+
+  --on-surface: #e4e1e6;
+  --on-surface-variant: #c2c6d6;
+  --on-background: #e4e1e6;
+
+  --inverse-surface: #e4e1e6;
+  --inverse-on-surface: #303033;
+  --inverse-primary: #005ac2;
+
+  --outline: #8c909f;
+  --outline-variant: #424754;
+
+  --on-primary: #002e6a;
+  --primary-container: #4d8eff;
+  --on-primary-container: #00285d;
+  --primary-fixed: #d8e2ff;
+  --primary-fixed-dim: #adc6ff;
+  --on-primary-fixed: #001a42;
+  --on-primary-fixed-variant: #004395;
+
+  --on-secondary: #00354a;
+  --secondary-container: #00a6e0;
+  --on-secondary-container: #00374d;
+  --secondary-fixed: #c4e7ff;
+  --secondary-fixed-dim: #7bd0ff;
+  --on-secondary-fixed: #001e2c;
+  --on-secondary-fixed-variant: #004c69;
+
+  --tertiary: #4edea3;
+  --on-tertiary: #003824;
+  --tertiary-container: #00a572;
+  --on-tertiary-container: #00311f;
+  --tertiary-fixed: #6ffbbe;
+  --tertiary-fixed-dim: #4edea3;
+  --on-tertiary-fixed: #002113;
+  --on-tertiary-fixed-variant: #005236;
+
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
 }
 
 .dark {
@@ -111,6 +166,58 @@
   --sidebar-accent-foreground: #f4f4f5;
   --sidebar-border: #23232a;
   --sidebar-ring: #3b82f6;
+
+  --surface: #131316;
+  --surface-dim: #131316;
+  --surface-bright: #39393c;
+  --surface-tint: #adc6ff;
+  --surface-variant: #353438;
+  --surface-container: #1f1f22;
+  --surface-container-low: #1b1b1e;
+  --surface-container-lowest: #0e0e11;
+  --surface-container-high: #2a2a2d;
+  --surface-container-highest: #353438;
+
+  --on-surface: #e4e1e6;
+  --on-surface-variant: #c2c6d6;
+  --on-background: #e4e1e6;
+
+  --inverse-surface: #e4e1e6;
+  --inverse-on-surface: #303033;
+  --inverse-primary: #005ac2;
+
+  --outline: #8c909f;
+  --outline-variant: #424754;
+
+  --on-primary: #002e6a;
+  --primary-container: #4d8eff;
+  --on-primary-container: #00285d;
+  --primary-fixed: #d8e2ff;
+  --primary-fixed-dim: #adc6ff;
+  --on-primary-fixed: #001a42;
+  --on-primary-fixed-variant: #004395;
+
+  --on-secondary: #00354a;
+  --secondary-container: #00a6e0;
+  --on-secondary-container: #00374d;
+  --secondary-fixed: #c4e7ff;
+  --secondary-fixed-dim: #7bd0ff;
+  --on-secondary-fixed: #001e2c;
+  --on-secondary-fixed-variant: #004c69;
+
+  --tertiary: #4edea3;
+  --on-tertiary: #003824;
+  --tertiary-container: #00a572;
+  --on-tertiary-container: #00311f;
+  --tertiary-fixed: #6ffbbe;
+  --tertiary-fixed-dim: #4edea3;
+  --on-tertiary-fixed: #002113;
+  --on-tertiary-fixed-variant: #005236;
+
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
 }
 
 @theme inline {
@@ -168,6 +275,58 @@
   --color-status-failed: var(--status-failed);
   --color-status-failed-foreground: var(--status-failed-foreground);
 
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-tint: var(--surface-tint);
+  --color-surface-variant: var(--surface-variant);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-on-background: var(--on-background);
+
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+  --color-inverse-primary: var(--inverse-primary);
+
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-on-primary-fixed-variant: var(--on-primary-fixed-variant);
+
+  --color-on-secondary: var(--on-secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+  --color-on-secondary-fixed: var(--on-secondary-fixed);
+  --color-on-secondary-fixed-variant: var(--on-secondary-fixed-variant);
+
+  --color-tertiary: var(--tertiary);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant: var(--on-tertiary-fixed-variant);
+
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -175,6 +334,197 @@
 
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  /* Type scale (doc/DESIGN.md "Typography") — use with font-sans / font-mono as needed */
+  --text-headline-xl: 2rem;
+  --text-headline-xl--line-height: 2.5rem;
+  --text-headline-xl--letter-spacing: -0.02em;
+  --text-headline-xl--font-weight: 600;
+
+  --text-headline-xl-mobile: 1.625rem;
+  --text-headline-xl-mobile--line-height: 2.125rem;
+  --text-headline-xl-mobile--letter-spacing: -0.015em;
+  --text-headline-xl-mobile--font-weight: 600;
+
+  --text-headline-lg: 1.5rem;
+  --text-headline-lg--line-height: 2rem;
+  --text-headline-lg--letter-spacing: -0.015em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-lg-mobile: 1.25rem;
+  --text-headline-lg-mobile--line-height: 1.75rem;
+  --text-headline-lg-mobile--letter-spacing: -0.01em;
+  --text-headline-lg-mobile--font-weight: 600;
+
+  --text-headline-md: 1.125rem;
+  --text-headline-md--line-height: 1.625rem;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 500;
+
+  --text-headline-sm: 0.9375rem;
+  --text-headline-sm--line-height: 1.375rem;
+  --text-headline-sm--letter-spacing: -0.005em;
+  --text-headline-sm--font-weight: 500;
+
+  --text-body-lg: 0.9375rem;
+  --text-body-lg--line-height: 1.5rem;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 0.8125rem;
+  --text-body-md--line-height: 1.25rem;
+  --text-body-md--font-weight: 400;
+
+  --text-body-sm: 0.75rem;
+  --text-body-sm--line-height: 1.125rem;
+  --text-body-sm--font-weight: 400;
+
+  --text-code-lg: 0.875rem;
+  --text-code-lg--line-height: 1.375rem;
+  --text-code-lg--font-weight: 400;
+
+  --text-code-md: 0.75rem;
+  --text-code-md--line-height: 1.125rem;
+  --text-code-md--font-weight: 400;
+
+  --text-code-sm: 0.6875rem;
+  --text-code-sm--line-height: 1rem;
+  --text-code-sm--font-weight: 400;
+
+  --text-label-md: 0.75rem;
+  --text-label-md--line-height: 1rem;
+  --text-label-md--letter-spacing: 0.01em;
+  --text-label-md--font-weight: 500;
+
+  --text-label-sm: 0.6875rem;
+  --text-label-sm--line-height: 0.875rem;
+  --text-label-sm--letter-spacing: 0.02em;
+  --text-label-sm--font-weight: 500;
+
+  /* Spacing (doc/DESIGN.md "Layout & Spacing") — e.g. p-space-md, gap-space-sm, px-gutter-desktop */
+  --spacing-gutter: 1rem;
+  --spacing-gutter-tablet: 1rem;
+  --spacing-gutter-desktop: 1.5rem;
+
+  --spacing-margin: 1rem;
+  --spacing-margin-tablet: 1.5rem;
+  --spacing-margin-desktop: 2rem;
+
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 0.75rem;
+  --spacing-space-lg: 1rem;
+  --spacing-space-xl: 1.5rem;
+}
+
+/*
+ * Composite type-style utilities (doc/DESIGN.md "Typography") — bundles
+ * font-family + size + line-height + letter-spacing + weight into one class,
+ * e.g. <h1 class="font-headline-xl"> instead of font-sans + text-headline-xl.
+ */
+@utility font-headline-xl {
+  font-family: var(--font-sans);
+  font-size: var(--text-headline-xl);
+  line-height: var(--text-headline-xl--line-height);
+  letter-spacing: var(--text-headline-xl--letter-spacing);
+  font-weight: var(--text-headline-xl--font-weight);
+}
+
+@utility font-headline-xl-mobile {
+  font-family: var(--font-sans);
+  font-size: var(--text-headline-xl-mobile);
+  line-height: var(--text-headline-xl-mobile--line-height);
+  letter-spacing: var(--text-headline-xl-mobile--letter-spacing);
+  font-weight: var(--text-headline-xl-mobile--font-weight);
+}
+
+@utility font-headline-lg {
+  font-family: var(--font-sans);
+  font-size: var(--text-headline-lg);
+  line-height: var(--text-headline-lg--line-height);
+  letter-spacing: var(--text-headline-lg--letter-spacing);
+  font-weight: var(--text-headline-lg--font-weight);
+}
+
+@utility font-headline-lg-mobile {
+  font-family: var(--font-sans);
+  font-size: var(--text-headline-lg-mobile);
+  line-height: var(--text-headline-lg-mobile--line-height);
+  letter-spacing: var(--text-headline-lg-mobile--letter-spacing);
+  font-weight: var(--text-headline-lg-mobile--font-weight);
+}
+
+@utility font-headline-md {
+  font-family: var(--font-sans);
+  font-size: var(--text-headline-md);
+  line-height: var(--text-headline-md--line-height);
+  letter-spacing: var(--text-headline-md--letter-spacing);
+  font-weight: var(--text-headline-md--font-weight);
+}
+
+@utility font-headline-sm {
+  font-family: var(--font-sans);
+  font-size: var(--text-headline-sm);
+  line-height: var(--text-headline-sm--line-height);
+  letter-spacing: var(--text-headline-sm--letter-spacing);
+  font-weight: var(--text-headline-sm--font-weight);
+}
+
+@utility font-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  line-height: var(--text-body-lg--line-height);
+  font-weight: var(--text-body-lg--font-weight);
+}
+
+@utility font-body-md {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md);
+  line-height: var(--text-body-md--line-height);
+  font-weight: var(--text-body-md--font-weight);
+}
+
+@utility font-body-sm {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+  font-weight: var(--text-body-sm--font-weight);
+}
+
+@utility font-code-lg {
+  font-family: var(--font-mono);
+  font-size: var(--text-code-lg);
+  line-height: var(--text-code-lg--line-height);
+  font-weight: var(--text-code-lg--font-weight);
+}
+
+@utility font-code-md {
+  font-family: var(--font-mono);
+  font-size: var(--text-code-md);
+  line-height: var(--text-code-md--line-height);
+  font-weight: var(--text-code-md--font-weight);
+}
+
+@utility font-code-sm {
+  font-family: var(--font-mono);
+  font-size: var(--text-code-sm);
+  line-height: var(--text-code-sm--line-height);
+  font-weight: var(--text-code-sm--font-weight);
+}
+
+@utility font-label-md {
+  font-family: var(--font-sans);
+  font-size: var(--text-label-md);
+  line-height: var(--text-label-md--line-height);
+  letter-spacing: var(--text-label-md--letter-spacing);
+  font-weight: var(--text-label-md--font-weight);
+}
+
+@utility font-label-sm {
+  font-family: var(--font-sans);
+  font-size: var(--text-label-sm);
+  line-height: var(--text-label-sm--line-height);
+  letter-spacing: var(--text-label-sm--letter-spacing);
+  font-weight: var(--text-label-sm--font-weight);
 }
 
 @layer base {
@@ -182,7 +532,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
 
