@@ -1,0 +1,197 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/jetbrains-mono";
+
+@custom-variant dark (&:is(.dark *));
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+ * Developer Platform Dark — tokens sourced from doc/DESIGN.md.
+ * The product is dark-only, so :root and .dark share the same values;
+ * the .dark class is kept so shadcn components that gate on it still work.
+ */
+:root {
+  --radius: 0.5rem;
+
+  --background: #0a0a0c;
+  --foreground: #f4f4f5;
+
+  --card: #18181d;
+  --card-foreground: #f4f4f5;
+
+  --popover: #202027;
+  --popover-foreground: #f4f4f5;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --secondary: #18181d;
+  --secondary-foreground: #e4e4e7;
+
+  --muted: #121215;
+  --muted-foreground: #71717a;
+
+  --accent: #202027;
+  --accent-foreground: #f4f4f5;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #23232a;
+  --input: #23232a;
+  --ring: #3b82f6;
+
+  --chart-1: #3b82f6;
+  --chart-2: #10b981;
+  --chart-3: #38bdf8;
+  --chart-4: #f59e0b;
+  --chart-5: #ef4444;
+
+  --sidebar: #121215;
+  --sidebar-foreground: #f4f4f5;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #202027;
+  --sidebar-accent-foreground: #f4f4f5;
+  --sidebar-border: #23232a;
+  --sidebar-ring: #3b82f6;
+
+  /* Status chips & badges (doc/DESIGN.md "Status Chips & Badges") */
+  --status-queued: #71717a;
+  --status-queued-foreground: #a1a1aa;
+  --status-building: #f59e0b;
+  --status-building-foreground: #fbbf24;
+  --status-deploying: #38bdf8;
+  --status-deploying-foreground: #38bdf8;
+  --status-healthy: #10b981;
+  --status-healthy-foreground: #34d399;
+  --status-failed: #ef4444;
+  --status-failed-foreground: #f87171;
+}
+
+.dark {
+  --background: #0a0a0c;
+  --foreground: #f4f4f5;
+
+  --card: #18181d;
+  --card-foreground: #f4f4f5;
+
+  --popover: #202027;
+  --popover-foreground: #f4f4f5;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --secondary: #18181d;
+  --secondary-foreground: #e4e4e7;
+
+  --muted: #121215;
+  --muted-foreground: #71717a;
+
+  --accent: #202027;
+  --accent-foreground: #f4f4f5;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #23232a;
+  --input: #23232a;
+  --ring: #3b82f6;
+
+  --sidebar: #121215;
+  --sidebar-foreground: #f4f4f5;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #202027;
+  --sidebar-accent-foreground: #f4f4f5;
+  --sidebar-border: #23232a;
+  --sidebar-ring: #3b82f6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-status-queued: var(--status-queued);
+  --color-status-queued-foreground: var(--status-queued-foreground);
+  --color-status-building: var(--status-building);
+  --color-status-building-foreground: var(--status-building-foreground);
+  --color-status-deploying: var(--status-deploying);
+  --color-status-deploying-foreground: var(--status-deploying-foreground);
+  --color-status-healthy: var(--status-healthy);
+  --color-status-healthy-foreground: var(--status-healthy-foreground);
+  --color-status-failed: var(--status-failed);
+  --color-status-failed-foreground: var(--status-failed-foreground);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
