@@ -24,7 +24,7 @@ export function RegisterBox() {
         <RegistrationForm />
       </CardContent>
       <CardFooter className="text-center t-space-xs">
-        <p className="font-body-sm! text-body-sm! text-on-surface-variant">
+        <p className="font-body-sm! text-on-surface-variant">
           Already have an account
           <Link
             to="/login"
@@ -62,7 +62,7 @@ function RegistrationForm() {
             <span className="text-primary">Privacy Policy</span>
           </Label>
         </div>
-        <Button className="text-headline-sm!">
+        <Button className="font-headline-sm!">
           Create account <ArrowRight />
         </Button>
       </div>
@@ -73,10 +73,10 @@ function RegistrationForm() {
 function LoginHeader() {
   return (
     <div className="flex flex-col gap-1">
-      <CardTitle className="font-headline-lg! text-headline-lg! text-on-surface tracking-tight font-semibold">
+      <CardTitle className="font-headline-lg! text-on-surface">
         Creat Your Acccount
       </CardTitle>
-      <CardDescription className="font-body-sm! text-body-sm! text-on-surface-variant leading-relaxed">
+      <CardDescription className="font-body-sm! text-on-surface-variant">
         Deploy and orchestrate bare-metal &amp; coud clusters in minutes.
       </CardDescription>
     </div>
@@ -89,15 +89,11 @@ function BrandIdentifierSection() {
         <div className="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary shadow-sm">
           <SquareTerminal size={16} color="#3b82f6" />
         </div>
-        <span className="font-headline-sm text-headline-sm text-on-surface tracking-tight">
-          Herosan
-        </span>
+        <span className="font-headline-sm text-on-surface">Herosan</span>
       </div>
       <div className="flex items-center gap-1.5 px-space-sm py-0.5 rounded bg-surface-container-high text-outline">
         <span className="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
-        <span className="font-code-sm text-code-sm text-on-surface-variant font-medium">
-          v2.4.0
-        </span>
+        <span className="font-code-sm text-on-surface-variant">v2.4.0</span>
       </div>
     </div>
   );

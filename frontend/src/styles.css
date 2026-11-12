@@ -27,11 +27,11 @@
   --popover: #202027;
   --popover-foreground: #f4f4f5;
 
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
+  --primary: #adc6ff;
+  --primary-foreground: #002e6a;
 
-  --secondary: #18181d;
-  --secondary-foreground: #e4e4e7;
+  --secondary: #7bd0ff;
+  --secondary-foreground: #00354a;
 
   --muted: #121215;
   --muted-foreground: #71717a;
@@ -44,7 +44,7 @@
 
   --border: #23232a;
   --input: #23232a;
-  --ring: #3b82f6;
+  --ring: #adc6ff;
 
   --chart-1: #3b82f6;
   --chart-2: #10b981;
@@ -54,12 +54,12 @@
 
   --sidebar: #121215;
   --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #3b82f6;
-  --sidebar-primary-foreground: #ffffff;
+  --sidebar-primary: #adc6ff;
+  --sidebar-primary-foreground: #002e6a;
   --sidebar-accent: #202027;
   --sidebar-accent-foreground: #f4f4f5;
   --sidebar-border: #23232a;
-  --sidebar-ring: #3b82f6;
+  --sidebar-ring: #adc6ff;
 
   /* Status chips & badges (doc/DESIGN.md "Status Chips & Badges") */
   --status-queued: #71717a;
@@ -73,9 +73,10 @@
   --status-failed: #ef4444;
   --status-failed-foreground: #f87171;
 
-  /* Material/Stitch surface system — additive, alongside the shadcn scheme above.
-   * primary/secondary/background intentionally excluded: those names already
-   * belong to the Electric-Blue scheme and must not be overridden. */
+  /* Material/Stitch surface system — additive, alongside the scheme above.
+   * primary/secondary now match the Stitch exports exactly (confirmed via
+   * bg-primary/text-secondary usage in doc/*\/code.html); background is kept
+   * as-is since none of the exports actually reference bg-background. */
   --surface: #131316;
   --surface-dim: #131316;
   --surface-bright: #39393c;
@@ -139,11 +140,11 @@
   --popover: #202027;
   --popover-foreground: #f4f4f5;
 
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
+  --primary: #adc6ff;
+  --primary-foreground: #002e6a;
 
-  --secondary: #18181d;
-  --secondary-foreground: #e4e4e7;
+  --secondary: #7bd0ff;
+  --secondary-foreground: #00354a;
 
   --muted: #121215;
   --muted-foreground: #71717a;
@@ -156,16 +157,16 @@
 
   --border: #23232a;
   --input: #23232a;
-  --ring: #3b82f6;
+  --ring: #adc6ff;
 
   --sidebar: #121215;
   --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #3b82f6;
-  --sidebar-primary-foreground: #ffffff;
+  --sidebar-primary: #adc6ff;
+  --sidebar-primary-foreground: #002e6a;
   --sidebar-accent: #202027;
   --sidebar-accent-foreground: #f4f4f5;
   --sidebar-border: #23232a;
-  --sidebar-ring: #3b82f6;
+  --sidebar-ring: #adc6ff;
 
   --surface: #131316;
   --surface-dim: #131316;
