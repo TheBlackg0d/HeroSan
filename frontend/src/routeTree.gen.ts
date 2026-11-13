@@ -9,19 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as HomeLayoutRouteRouteImport } from './routes/_homeLayout/route'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as RegisterRouteRouteImport } from './routes/register/route'
+import { Route as HomeLayoutIndexRouteImport } from './routes/_homeLayout/index'
+import { Route as HomeLayoutAppCreateRouteRouteImport } from './routes/_homeLayout/app.create/route'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRouteRoute = DashboardRouteRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const HomeLayoutRouteRoute = HomeLayoutRouteRouteImport.update({
+  id: '/_homeLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRouteRoute = LoginRouteRouteImport.update({
@@ -34,55 +29,65 @@ const RegisterRouteRoute = RegisterRouteRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeLayoutIndexRoute = HomeLayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HomeLayoutRouteRoute,
+} as any)
+const HomeLayoutAppCreateRouteRoute =
+  HomeLayoutAppCreateRouteRouteImport.update({
+    id: '/app/create',
+    path: '/app/create',
+    getParentRoute: () => HomeLayoutRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRoute
+  '/': typeof HomeLayoutIndexRoute
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
+  '/app/create': typeof HomeLayoutAppCreateRouteRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRoute
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
+  '/': typeof HomeLayoutIndexRoute
+  '/app/create': typeof HomeLayoutAppCreateRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRoute
+  '/_homeLayout': typeof HomeLayoutRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
+  '/_homeLayout/': typeof HomeLayoutIndexRoute
+  '/_homeLayout/app/create': typeof HomeLayoutAppCreateRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/register'
+  fullPaths: '/' | '/login' | '/register' | '/app/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/register'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/register'
+  to: '/login' | '/register' | '/' | '/app/create'
+  id:
+    | '__root__'
+    | '/_homeLayout'
+    | '/login'
+    | '/register'
+    | '/_homeLayout/'
+    | '/_homeLayout/app/create'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  DashboardRouteRoute: typeof DashboardRouteRoute
+  HomeLayoutRouteRoute: typeof HomeLayoutRouteRouteWithChildren
   LoginRouteRoute: typeof LoginRouteRoute
   RegisterRouteRoute: typeof RegisterRouteRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_homeLayout': {
+      id: '/_homeLayout'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteRouteImport
+      preLoaderRoute: typeof HomeLayoutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -99,12 +104,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_homeLayout/': {
+      id: '/_homeLayout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof HomeLayoutIndexRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
+    '/_homeLayout/app/create': {
+      id: '/_homeLayout/app/create'
+      path: '/app/create'
+      fullPath: '/app/create'
+      preLoaderRoute: typeof HomeLayoutAppCreateRouteRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
   }
 }
 
+interface HomeLayoutRouteRouteChildren {
+  HomeLayoutIndexRoute: typeof HomeLayoutIndexRoute
+  HomeLayoutAppCreateRouteRoute: typeof HomeLayoutAppCreateRouteRoute
+}
+
+const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
+  HomeLayoutIndexRoute: HomeLayoutIndexRoute,
+  HomeLayoutAppCreateRouteRoute: HomeLayoutAppCreateRouteRoute,
+}
+
+const HomeLayoutRouteRouteWithChildren = HomeLayoutRouteRoute._addFileChildren(
+  HomeLayoutRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  DashboardRouteRoute: DashboardRouteRoute,
+  HomeLayoutRouteRoute: HomeLayoutRouteRouteWithChildren,
   LoginRouteRoute: LoginRouteRoute,
   RegisterRouteRoute: RegisterRouteRoute,
 }

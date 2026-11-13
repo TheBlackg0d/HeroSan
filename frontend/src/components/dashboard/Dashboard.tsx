@@ -7,18 +7,40 @@ import {
   LayoutTemplate,
   Plus,
 } from "lucide-react";
+import { ApplicationCard } from "./ApplicationCard";
+import { applications } from "#/data/applications";
 
 export function Dashboard() {
+  if (applications.length > 0) {
+    return (
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-space-md px-32">
+        {applications.map((application) => (
+          <ApplicationCard key={application.id} application={application} />
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="relative w-full rounded-xl bg-surface-container-low p-space-xl md:p-10 shadow-xl overflow-hidden text-center flex flex-col items-center">
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary-container/10 blur-[100px] pointer-events-none rounded-full"></div>
-      <div className="absolute -bottom-20 right-10 w-72 h-72 bg-secondary-container/10 blur-[80px] pointer-events-none rounded-full"></div>
+    <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
+      <div className="relative w-full rounded-xl bg-surface-container-low p-space-xl md:p-10 shadow-xl overflow-hidden text-center flex flex-col items-center">
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary-container/10 blur-[100px] pointer-events-none rounded-full"></div>
+        <div className="absolute -bottom-20 right-10 w-72 h-72 bg-secondary-container/10 blur-[80px] pointer-events-none rounded-full"></div>
+        <EmptyDashboard />
+      </div>
+    </div>
+  );
+}
+
+function EmptyDashboard() {
+  return (
+    <>
       <RocketIcon />
       <Heading />
       <CallToActionSection />
       <DeploymentChannelsGrid />
       <TerminalHelperStrip />
-    </div>
+    </>
   );
 }
 
