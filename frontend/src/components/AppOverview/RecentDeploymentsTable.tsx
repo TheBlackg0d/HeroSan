@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import {
   ArrowRight,
   Bug,
+  CircleX,
   Ellipsis,
   GitBranch,
   History,
@@ -42,31 +43,37 @@ const COLUMNS = [
 type RecentDeploymentsTableProps = {
   deployments: DeploymentRecord[];
   totalCount: number;
+  title?: string;
   onViewAll?: () => void;
+  onSelect?: (deploymentNumber: number) => void;
 };
 
 export function RecentDeploymentsTable({
   deployments,
   totalCount,
+  title = "Recent Deployments",
   onViewAll,
+  onSelect,
 }: RecentDeploymentsTableProps) {
   return (
     <section className="flex flex-col gap-space-md">
       <div className="flex items-center justify-between">
         <SectionTitle
           icon={<History size={20} className="text-primary" />}
-          title="Recent Deployments"
+          title={title}
         >
           <Pill className="font-normal">{totalCount} total</Pill>
         </SectionTitle>
-        <Button
-          variant="link"
-          onClick={onViewAll}
-          className="h-auto p-0 font-headline-sm text-(length:--text-headline-sm) text-primary hover:text-primary-fixed hover:no-underline"
-        >
-          View all {totalCount} deployments
-          <ArrowRight />
-        </Button>
+        {onViewAll && (
+          <Button
+            variant="link"
+            onClick={onViewAll}
+            className="h-auto p-0 font-headline-sm text-(length:--text-headline-sm) text-primary hover:text-primary-fixed hover:no-underline"
+          >
+            View all {totalCount} deployments
+            <ArrowRight />
+          </Button>
+        )}
       </div>
 
       <div className="rounded-xl bg-surface-container-low shadow-md overflow-hidden">
@@ -81,7 +88,11 @@ export function RecentDeploymentsTable({
           </TableHeader>
           <TableBody>
             {deployments.map((deployment) => (
-              <DeploymentRow key={deployment.number} deployment={deployment} />
+              <DeploymentRow
+                key={deployment.number}
+                deployment={deployment}
+                onSelect={onSelect}
+              />
             ))}
           </TableBody>
         </Table>
@@ -113,6 +124,10 @@ const ROW_STYLES: Record<
   DeploymentRecordStatus,
   { hash: string; message: string }
 > = {
+  building: {
+    hash: "text-secondary",
+    message: "text-on-surface group-hover:text-secondary",
+  },
   live: {
     hash: "text-primary",
     message: "text-on-surface group-hover:text-primary",
@@ -129,10 +144,22 @@ const ROW_STYLES: Record<
 
 const cellClass = "py-space-md px-space-md";
 
-function DeploymentRow({ deployment }: { deployment: DeploymentRecord }) {
+type DeploymentRowProps = {
+  deployment: DeploymentRecord;
+  onSelect?: (deploymentNumber: number) => void;
+};
+
+function DeploymentRow({ deployment, onSelect }: DeploymentRowProps) {
   const styles = ROW_STYLES[deployment.status];
+  const select = onSelect ? () => onSelect(deployment.number) : undefined;
   return (
-    <TableRow className="group border-0 hover:bg-surface-container/40">
+    <TableRow
+      onClick={select}
+      className={cn(
+        "group border-0 hover:bg-surface-container/40",
+        select && "cursor-pointer",
+      )}
+    >
       <TableCell className={cellClass}>
         <div className="flex items-center gap-space-xs font-code-sm text-code-sm">
           <span className="text-on-surface font-semibold">
@@ -173,7 +200,7 @@ function DeploymentRow({ deployment }: { deployment: DeploymentRecord }) {
       </TableCell>
       <TableCell className={cn(cellClass, "text-right")}>
         <div className="flex items-center justify-end gap-1">
-          <DeploymentRowActions deployment={deployment} />
+          <DeploymentRowActions deployment={deployment} onViewLogs={select} />
         </div>
       </TableCell>
     </TableRow>
@@ -182,6 +209,12 @@ function DeploymentRow({ deployment }: { deployment: DeploymentRecord }) {
 
 function DeploymentStatusPill({ deployment }: { deployment: DeploymentRecord }) {
   switch (deployment.status) {
+    case "building":
+      return (
+        <Pill tone="info" dot pulse className="px-2.5">
+          Building
+        </Pill>
+      );
     case "live":
       return (
         <Pill tone="success" dot pulse className="px-2.5">
@@ -205,12 +238,32 @@ function DeploymentStatusPill({ deployment }: { deployment: DeploymentRecord }) 
   }
 }
 
-function DeploymentRowActions({ deployment }: { deployment: DeploymentRecord }) {
+function DeploymentRowActions({
+  deployment,
+  onViewLogs,
+}: {
+  deployment: DeploymentRecord;
+  onViewLogs?: () => void;
+}) {
   const logsAction = (
-    <RowIconButton label="View build logs">
+    <RowIconButton label="View build logs" onClick={onViewLogs}>
       <SquareTerminal />
     </RowIconButton>
   );
+
+  if (deployment.status === "building") {
+    return (
+      <>
+        {logsAction}
+        <RowIconButton
+          label="Cancel build"
+          className="text-error hover:text-error hover:bg-error-container/20"
+        >
+          <CircleX />
+        </RowIconButton>
+      </>
+    );
+  }
 
   if (deployment.status === "live") {
     return (
@@ -219,6 +272,7 @@ function DeploymentRowActions({ deployment }: { deployment: DeploymentRecord }) 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
+              onClick={(event) => event.stopPropagation()}
               variant="ghost"
               size="icon-xs"
               aria-label="Deployment options"
@@ -264,10 +318,12 @@ function DeploymentRowActions({ deployment }: { deployment: DeploymentRecord }) 
 function RowIconButton({
   label,
   className,
+  onClick,
   children,
 }: {
   label: string;
   className?: string;
+  onClick?: () => void;
   children: ReactNode;
 }) {
   return (
@@ -277,6 +333,10 @@ function RowIconButton({
           variant="ghost"
           size="icon-xs"
           aria-label={label}
+          onClick={(event) => {
+            event.stopPropagation();
+            onClick?.();
+          }}
           className={cn(
             "rounded text-outline hover:text-on-surface hover:bg-surface-container",
             className,

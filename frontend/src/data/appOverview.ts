@@ -63,6 +63,16 @@ const webClientOverview: AppOverview = {
   },
   recentDeployments: [
     {
+      number: 43,
+      commitHash: "c4190ea",
+      commitMessage:
+        "feat: add instant edge cache prefetching for catalog routes",
+      branch: "main",
+      status: "building",
+      duration: "1m 28s",
+      triggeredAgo: "1m ago",
+    },
+    {
       number: 42,
       commitHash: "c4190ea",
       commitMessage:

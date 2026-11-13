@@ -58,7 +58,7 @@ type ResourceTelemetry = {
   };
 };
 
-type DeploymentRecordStatus = "live" | "deployed" | "failed";
+type DeploymentRecordStatus = "building" | "live" | "deployed" | "failed";
 
 type DeploymentRecord = {
   number: number;

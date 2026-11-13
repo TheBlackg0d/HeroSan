@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { DeploymentsTab } from "#/components/DeploymentDetail/DeploymentsTab";
 import { Tabs, TabsContent } from "#/components/ui/tabs";
 import { ActiveDeploymentCard } from "./ActiveDeploymentCard";
 import { AppOverviewHeader } from "./AppOverviewHeader";
@@ -10,6 +11,14 @@ import { ResourceTelemetryPanel } from "./ResourceTelemetryPanel";
 
 export function AppOverviewPage({ app }: { app: AppOverview }) {
   const [tab, setTab] = useState<AppTab>("overview");
+  const [selectedDeployment, setSelectedDeployment] = useState<number | null>(
+    () => findActiveBuild(app),
+  );
+
+  const openDeployment = (deploymentNumber: number | null) => {
+    setSelectedDeployment(deploymentNumber);
+    setTab("deployments");
+  };
 
   return (
     <Tabs
@@ -38,21 +47,35 @@ export function AppOverviewPage({ app }: { app: AppOverview }) {
         <RecentDeploymentsTable
           deployments={app.recentDeployments}
           totalCount={app.deploymentCount}
-          onViewAll={() => setTab("deployments")}
+          onViewAll={() => openDeployment(null)}
+          onSelect={openDeployment}
         />
 
         <InfrastructureCards items={app.infrastructure} />
       </TabsContent>
 
-      {(
-        ["deployments", "logs", "metrics", "environment", "settings"] as const
-      ).map((value) => (
+      <TabsContent value="deployments">
+        <DeploymentsTab
+          app={app}
+          selectedDeployment={selectedDeployment}
+          onSelectDeployment={setSelectedDeployment}
+        />
+      </TabsContent>
+
+      {(["logs", "metrics", "environment", "settings"] as const).map((value) => (
         <TabsContent key={value} value={value}>
           <TabPlaceholder name={value} />
         </TabsContent>
       ))}
     </Tabs>
   );
+}
+
+function findActiveBuild(app: AppOverview) {
+  const building = app.recentDeployments.find(
+    (deployment) => deployment.status === "building",
+  );
+  return building?.number ?? null;
 }
 
 function TabPlaceholder({ name }: { name: string }) {
