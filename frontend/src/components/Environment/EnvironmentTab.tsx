@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { getEnvironmentVariables } from "#/data/environmentVariables";
+import { downloadTextFile } from "#/lib/download";
 import { AddVariableForm } from "./AddVariableForm";
 import { EnvVariablesTable, type SortDirection } from "./EnvVariablesTable";
 import { EnvVariablesToolbar, type ScopeFilter } from "./EnvVariablesToolbar";
 import { EnvironmentHelpCards } from "./EnvironmentHelpCards";
-import { downloadTextFile, serializeDotenv } from "./envUtils";
+import { serializeDotenv } from "./envUtils";
 import { RedeployBanner } from "./RedeployBanner";
 import { useEnvironmentVariables } from "./useEnvironmentVariables";
 

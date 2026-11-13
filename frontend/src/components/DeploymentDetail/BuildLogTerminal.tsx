@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SquareTerminal } from "lucide-react";
+import { TerminalDots } from "#/components/Terminal/TerminalDots";
 import { useCopyToClipboard } from "#/hooks/useCopyToClipboard";
+import { downloadTextFile } from "#/lib/download";
 import { formatLogLine, LogLineRow } from "./LogLineRow";
 import { type LogFilter, LogToolbar } from "./LogToolbar";
 
@@ -40,14 +42,7 @@ export function BuildLogTerminal({ terminal, downloadName }: BuildLogTerminalPro
 
   const rawText = () => terminal.lines.map(formatLogLine).join("\n");
 
-  const download = () => {
-    const url = URL.createObjectURL(new Blob([rawText()], { type: "text/plain" }));
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = `${downloadName}.log`;
-    anchor.click();
-    URL.revokeObjectURL(url);
-  };
+  const download = () => downloadTextFile(`${downloadName}.log`, rawText());
 
   const toggleFullscreen = () => {
     if (document.fullscreenElement) {
@@ -139,11 +134,7 @@ function TerminalTitleBar({
   return (
     <div className="h-11 px-4 bg-surface-container-low flex items-center justify-between select-none">
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1.5">
-          <span className="size-3 rounded-full bg-status-failed-foreground/70" />
-          <span className="size-3 rounded-full bg-status-building-foreground/70" />
-          <span className="size-3 rounded-full bg-status-healthy-foreground/70" />
-        </div>
+        <TerminalDots className="text-[0.75rem]" />
         <span className="hidden sm:inline text-outline-variant font-code-sm text-code-sm">
           |
         </span>

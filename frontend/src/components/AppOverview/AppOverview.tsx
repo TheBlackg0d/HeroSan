@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DeploymentsTab } from "#/components/DeploymentDetail/DeploymentsTab";
 import { EnvironmentTab } from "#/components/Environment/EnvironmentTab";
+import { LogsTab } from "#/components/RuntimeLogs/LogsTab";
 import { Tabs, TabsContent } from "#/components/ui/tabs";
 import { ActiveDeploymentCard } from "./ActiveDeploymentCard";
 import { AppOverviewHeader } from "./AppOverviewHeader";
@@ -71,7 +72,11 @@ export function AppOverviewPage({ app }: { app: AppOverview }) {
         <EnvironmentTab app={app} />
       </TabsContent>
 
-      {(["logs", "metrics", "settings"] as const).map((value) => (
+      <TabsContent value="logs">
+        <LogsTab app={app} />
+      </TabsContent>
+
+      {(["metrics", "settings"] as const).map((value) => (
         <TabsContent key={value} value={value}>
           <TabPlaceholder name={value} />
         </TabsContent>
