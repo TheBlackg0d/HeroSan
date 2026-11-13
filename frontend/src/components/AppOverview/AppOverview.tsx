@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DeploymentsTab } from "#/components/DeploymentDetail/DeploymentsTab";
+import { EnvironmentTab } from "#/components/Environment/EnvironmentTab";
 import { Tabs, TabsContent } from "#/components/ui/tabs";
 import { ActiveDeploymentCard } from "./ActiveDeploymentCard";
 import { AppOverviewHeader } from "./AppOverviewHeader";
@@ -62,7 +63,15 @@ export function AppOverviewPage({ app }: { app: AppOverview }) {
         />
       </TabsContent>
 
-      {(["logs", "metrics", "environment", "settings"] as const).map((value) => (
+      <TabsContent
+        value="environment"
+        forceMount
+        className="data-[state=inactive]:hidden"
+      >
+        <EnvironmentTab app={app} />
+      </TabsContent>
+
+      {(["logs", "metrics", "settings"] as const).map((value) => (
         <TabsContent key={value} value={value}>
           <TabPlaceholder name={value} />
         </TabsContent>
