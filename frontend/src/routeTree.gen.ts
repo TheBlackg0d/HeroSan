@@ -13,6 +13,7 @@ import { Route as HomeLayoutRouteRouteImport } from './routes/_homeLayout/route'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as RegisterRouteRouteImport } from './routes/register/route'
 import { Route as HomeLayoutIndexRouteImport } from './routes/_homeLayout/index'
+import { Route as HomeLayoutAccountSettingsRouteRouteImport } from './routes/_homeLayout/account.settings/route'
 import { Route as HomeLayoutAppCreateRouteRouteImport } from './routes/_homeLayout/app.create/route'
 import { Route as HomeLayoutAppOverviewAppIdRouteRouteImport } from './routes/_homeLayout/app.overview.$appId/route'
 
@@ -35,6 +36,12 @@ const HomeLayoutIndexRoute = HomeLayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HomeLayoutRouteRoute,
 } as any)
+const HomeLayoutAccountSettingsRouteRoute =
+  HomeLayoutAccountSettingsRouteRouteImport.update({
+    id: '/account/settings',
+    path: '/account/settings',
+    getParentRoute: () => HomeLayoutRouteRoute,
+  } as any)
 const HomeLayoutAppCreateRouteRoute =
   HomeLayoutAppCreateRouteRouteImport.update({
     id: '/app/create',
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/': typeof HomeLayoutIndexRoute
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
+  '/account/settings': typeof HomeLayoutAccountSettingsRouteRoute
   '/app/create': typeof HomeLayoutAppCreateRouteRoute
   '/app/overview/$appId': typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
   '/': typeof HomeLayoutIndexRoute
+  '/account/settings': typeof HomeLayoutAccountSettingsRouteRoute
   '/app/create': typeof HomeLayoutAppCreateRouteRoute
   '/app/overview/$appId': typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
@@ -68,21 +77,34 @@ export interface FileRoutesById {
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
   '/_homeLayout/': typeof HomeLayoutIndexRoute
+  '/_homeLayout/account/settings': typeof HomeLayoutAccountSettingsRouteRoute
   '/_homeLayout/app/create': typeof HomeLayoutAppCreateRouteRoute
   '/_homeLayout/app/overview/$appId': typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/login' | '/register' | '/app/create' | '/app/overview/$appId'
+    | '/'
+    | '/login'
+    | '/register'
+    | '/account/settings'
+    | '/app/create'
+    | '/app/overview/$appId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/register' | '/' | '/app/create' | '/app/overview/$appId'
+  to:
+    | '/login'
+    | '/register'
+    | '/'
+    | '/account/settings'
+    | '/app/create'
+    | '/app/overview/$appId'
   id:
     | '__root__'
     | '/_homeLayout'
     | '/login'
     | '/register'
     | '/_homeLayout/'
+    | '/_homeLayout/account/settings'
     | '/_homeLayout/app/create'
     | '/_homeLayout/app/overview/$appId'
   fileRoutesById: FileRoutesById
@@ -123,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeLayoutIndexRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
+    '/_homeLayout/account/settings': {
+      id: '/_homeLayout/account/settings'
+      path: '/account/settings'
+      fullPath: '/account/settings'
+      preLoaderRoute: typeof HomeLayoutAccountSettingsRouteRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
     '/_homeLayout/app/create': {
       id: '/_homeLayout/app/create'
       path: '/app/create'
@@ -142,12 +171,14 @@ declare module '@tanstack/react-router' {
 
 interface HomeLayoutRouteRouteChildren {
   HomeLayoutIndexRoute: typeof HomeLayoutIndexRoute
+  HomeLayoutAccountSettingsRouteRoute: typeof HomeLayoutAccountSettingsRouteRoute
   HomeLayoutAppCreateRouteRoute: typeof HomeLayoutAppCreateRouteRoute
   HomeLayoutAppOverviewAppIdRouteRoute: typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
 
 const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutIndexRoute: HomeLayoutIndexRoute,
+  HomeLayoutAccountSettingsRouteRoute: HomeLayoutAccountSettingsRouteRoute,
   HomeLayoutAppCreateRouteRoute: HomeLayoutAppCreateRouteRoute,
   HomeLayoutAppOverviewAppIdRouteRoute: HomeLayoutAppOverviewAppIdRouteRoute,
 }

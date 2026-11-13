@@ -1,3 +1,10 @@
 server/node_modules
 frontend/node_modules
 doc/*
+server/.agents
+server/.claude
+server/.cursor
+server/dist
+server/.env
+server/.devin
+server/.windsurf

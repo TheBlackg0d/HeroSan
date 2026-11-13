@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import {
   ChevronsUpDown,
-  EllipsisVertical,
   LayoutGrid,
   Settings,
   Shield,
@@ -49,7 +48,10 @@ function SideBarFooter() {
 function CurrentUser() {
   return (
     <div className="p-space-md border-t border-outline-variant/20">
-      <div className="flex items-center justify-between p-space-xs rounded-lg hover:bg-surface-container transition-colors">
+      <Link
+        to="/account/settings"
+        className="group flex items-center justify-between p-space-xs rounded-lg hover:bg-surface-container transition-colors"
+      >
         <div className="flex items-center gap-space-sm min-w-0">
           <img
             alt="Profile"
@@ -57,7 +59,7 @@ function CurrentUser() {
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkz5kKbeABhodKvTFayxO6JQiKY87ZjOHKDpKloPVtTQW8s5j5x0yo8hdEYEc2y8NIS0R4tzh4YjgWtJjg2_1VRSIHZaUW9QJq1Hi-HassTdAftxmVqeDB2ClsY5REyEsMYw2afFTGsD7ANxCy9UgNdiQ1WbVM-VITvkDEV3ROP5ikGpeMHRFCmbDtUfdL2iOkVXU918dtISPsQNyIWZNs3OYowwrETsIpg6sIA4vV"
           />
           <div className="flex flex-col min-w-0">
-            <span className="font-body-md text-body-md font-medium text-on-surface truncate">
+            <span className="font-body-md text-body-md font-medium text-on-surface group-hover:text-primary transition-colors truncate">
               alex.dev
             </span>
             <span className="font-code-sm text-code-sm text-outline truncate">
@@ -65,13 +67,11 @@ function CurrentUser() {
             </span>
           </div>
         </div>
-        <button
-          className="text-outline hover:text-on-surface p-1 rounded hover:bg-surface-container-high transition-colors"
-          type="button"
-        >
-          <EllipsisVertical size={18} />
-        </button>
-      </div>
+        <Settings
+          size={18}
+          className="text-outline group-hover:text-on-surface transition-colors"
+        />
+      </Link>
     </div>
   );
 }
