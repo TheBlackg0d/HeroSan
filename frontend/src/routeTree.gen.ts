@@ -14,6 +14,7 @@ import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as RegisterRouteRouteImport } from './routes/register/route'
 import { Route as HomeLayoutIndexRouteImport } from './routes/_homeLayout/index'
 import { Route as HomeLayoutAppCreateRouteRouteImport } from './routes/_homeLayout/app.create/route'
+import { Route as HomeLayoutAppOverviewAppIdRouteRouteImport } from './routes/_homeLayout/app.overview.$appId/route'
 
 const HomeLayoutRouteRoute = HomeLayoutRouteRouteImport.update({
   id: '/_homeLayout',
@@ -40,18 +41,26 @@ const HomeLayoutAppCreateRouteRoute =
     path: '/app/create',
     getParentRoute: () => HomeLayoutRouteRoute,
   } as any)
+const HomeLayoutAppOverviewAppIdRouteRoute =
+  HomeLayoutAppOverviewAppIdRouteRouteImport.update({
+    id: '/app/overview/$appId',
+    path: '/app/overview/$appId',
+    getParentRoute: () => HomeLayoutRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof HomeLayoutIndexRoute
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
   '/app/create': typeof HomeLayoutAppCreateRouteRoute
+  '/app/overview/$appId': typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRouteRoute
   '/register': typeof RegisterRouteRoute
   '/': typeof HomeLayoutIndexRoute
   '/app/create': typeof HomeLayoutAppCreateRouteRoute
+  '/app/overview/$appId': typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -60,12 +69,14 @@ export interface FileRoutesById {
   '/register': typeof RegisterRouteRoute
   '/_homeLayout/': typeof HomeLayoutIndexRoute
   '/_homeLayout/app/create': typeof HomeLayoutAppCreateRouteRoute
+  '/_homeLayout/app/overview/$appId': typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/app/create'
+  fullPaths:
+    '/' | '/login' | '/register' | '/app/create' | '/app/overview/$appId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/register' | '/' | '/app/create'
+  to: '/login' | '/register' | '/' | '/app/create' | '/app/overview/$appId'
   id:
     | '__root__'
     | '/_homeLayout'
@@ -73,6 +84,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/_homeLayout/'
     | '/_homeLayout/app/create'
+    | '/_homeLayout/app/overview/$appId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,17 +130,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeLayoutAppCreateRouteRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
+    '/_homeLayout/app/overview/$appId': {
+      id: '/_homeLayout/app/overview/$appId'
+      path: '/app/overview/$appId'
+      fullPath: '/app/overview/$appId'
+      preLoaderRoute: typeof HomeLayoutAppOverviewAppIdRouteRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
   }
 }
 
 interface HomeLayoutRouteRouteChildren {
   HomeLayoutIndexRoute: typeof HomeLayoutIndexRoute
   HomeLayoutAppCreateRouteRoute: typeof HomeLayoutAppCreateRouteRoute
+  HomeLayoutAppOverviewAppIdRouteRoute: typeof HomeLayoutAppOverviewAppIdRouteRoute
 }
 
 const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutIndexRoute: HomeLayoutIndexRoute,
   HomeLayoutAppCreateRouteRoute: HomeLayoutAppCreateRouteRoute,
+  HomeLayoutAppOverviewAppIdRouteRoute: HomeLayoutAppOverviewAppIdRouteRoute,
 }
 
 const HomeLayoutRouteRouteWithChildren = HomeLayoutRouteRoute._addFileChildren(
