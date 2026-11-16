@@ -1,10 +1,14 @@
 import { ArrowRight, SquareTerminal } from "lucide-react";
 import { CardContent, CardFooter, CardHeader } from "../ui/card";
+import { useLogin } from "#/hooks/auth/useLogin";
 
 import { Input } from "../ui/input";
+import { PasswordInput } from "#/components/shared/PasswordInput";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
+import { InputError } from "../shared/InputError";
+import { ErrorMessage } from "react-hook-form";
 
 export function LoginBox() {
   return (
@@ -35,18 +39,46 @@ function LoginFooter() {
 }
 
 function LoginForm() {
+  const login = useLogin();
   return (
-    <form className="flex flex-col gap-space-md">
+    <form className="flex flex-col gap-space-md" onSubmit={login.handleSubmit}>
       <div className="flex flex-col gap-6">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="john.doe@email.com" />
+          <Input
+            id="email"
+            type="email"
+            placeholder="john.doe@email.com"
+            {...login.register("email")}
+          />
+          <ErrorMessage
+            control={login.control}
+            name="email"
+            render={({ message }) => <InputError message={message} />}
+          />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="pasword">Pasword</Label>
-          <Input id="pasword" type="pasword" />
+          <Label htmlFor="password">Password</Label>
+          <PasswordInput id="password" {...login.register("password")} />
+          <ErrorMessage
+            control={login.control}
+            name="password"
+            render={({ messages }) =>
+              messages &&
+              Object.values(messages)
+                .flat()
+                .map((message) => (
+                  <InputError key={String(message)} message={String(message)} />
+                ))
+            }
+          />
+          <ErrorMessage
+            control={login.control}
+            name="root.server"
+            render={({ message }) => <InputError message={message} />}
+          />
         </div>
-        <Button className="text-headline-sm!">
+        <Button className="text-headline-sm!" type="submit">
           Sign in <ArrowRight />
         </Button>
       </div>

@@ -6,12 +6,14 @@ import bcrypt from "bcryptjs";
 
 class AuthService {
   static generateToken(user: User) {
+    console.log(authConfig);
     return jwt.sign({ userId: user.id }, authConfig.secret, {
       expiresIn: authConfig.secret_expires_in as any,
     });
   }
 
   static generateRefreshToken(user: User) {
+    console.log(authConfig);
     return jwt.sign({ userId: user.id }, authConfig.refresh_secret, {
       expiresIn: authConfig.refresh_expires_in as any,
     });
@@ -42,6 +44,24 @@ class AuthService {
     return prisma.user.update({
       where: { id: userId },
       data: { refreshToken: null },
+    });
+  }
+
+  static async setJwtTokenCookie(res: any, jwtToken: string) {
+    res.cookie("jwtToken", jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+  }
+
+  static async setRefreshTokenCookie(res: any, refreshToken: string) {
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000, // 7 days
     });
   }
 }

@@ -1,4 +1,8 @@
 import { ArrowRight, SquareTerminal } from "lucide-react";
+import { Controller, ErrorMessage, useForm } from "react-hook-form";
+import type { RegisterRequest } from "../../api/auth/auth.types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import authSchema from "../../validations/auth.validation";
 import {
   Card,
   CardContent,
@@ -12,6 +16,11 @@ import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
+import { useRegisterMutation } from "#/api/auth/auth.hooks.ts";
+import { InputError } from "../shared/InputError";
+import { PasswordInput } from "../shared/PasswordInput";
+import { register } from "#/api/auth/auth.requests.ts";
+import { useRegister } from "#/hooks/auth/useRegister.ts";
 
 export function RegisterBox() {
   return (
@@ -39,29 +48,88 @@ export function RegisterBox() {
 }
 
 function RegistrationForm() {
+  const register = useRegister();
   return (
-    <form>
+    <form noValidate onSubmit={register.handleSubmit}>
       <div className="flex flex-col gap-6">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="john.doe@email.com" />
+          <Input
+            id="email"
+            type="email"
+            placeholder="john.doe@email.com"
+            {...register.register("email")}
+          />
+          <ErrorMessage
+            control={register.control}
+            name="email"
+            render={({ message }) => <InputError message={message} />}
+          />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="pasword">Pasword</Label>
-          <Input id="pasword" type="pasword" />
+          <Label htmlFor="password">Password</Label>
+          <PasswordInput id="password" {...register.register("password")} />
+          <ErrorMessage
+            control={register.control}
+            name="password"
+            render={({ messages }) =>
+              messages &&
+              Object.values(messages)
+                .flat()
+                .map((message) => (
+                  <InputError key={String(message)} message={String(message)} />
+                ))
+            }
+          />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="confirm-pasword">Confirm Pasword</Label>
-          <Input id="confirm-pasword" type="pasword" />
+          <Label htmlFor="confirm-password">Confirm Password</Label>
+          <PasswordInput
+            id="confirm-password"
+            {...register.register("confirmPassword")}
+          />
+          <ErrorMessage
+            control={register.control}
+            name="confirmPassword"
+            render={({ message }) => <InputError message={message} />}
+          />
         </div>
-        <div className="flex gap-2">
-          <Checkbox id="terms" />
-          <Label htmlFor="terms">
-            AI agree to the{" "}
-            <span className="text-primary">Terms of Sevice</span> and{" "}
-            <span className="text-primary">Privacy Policy</span>
-          </Label>
+        <div className="flex flex-col gap-2 items-center">
+          <div className="flex gap-2">
+            <Controller
+              control={register.control}
+              name="terms"
+              render={({ field }) => (
+                <Checkbox
+                  id="terms"
+                  ref={field.ref}
+                  name={field.name}
+                  checked={field.value}
+                  onCheckedChange={(checked) =>
+                    field.onChange(checked === true)
+                  }
+                  onBlur={field.onBlur}
+                />
+              )}
+            />
+            <Label htmlFor="terms">
+              AI agree to the{" "}
+              <span className="text-primary">Terms of Sevice</span> and{" "}
+              <span className="text-primary">Privacy Policy</span>
+            </Label>
+          </div>
+          <ErrorMessage
+            control={register.control}
+            name="terms"
+            render={({ message }) => <InputError message={message} />}
+          />
         </div>
+
+        <ErrorMessage
+          control={register.control}
+          name="root.server"
+          render={({ message }) => <InputError message={message} />}
+        />
         <Button className="font-headline-sm!">
           Create account <ArrowRight />
         </Button>

@@ -9,7 +9,7 @@ export interface DecodedToken {
 
 class AuthMiddleware {
   static authenticate(req: Request, res: Response, next: NextFunction) {
-    const token = req.cookies.accessToken;
+    const token = req.cookies.jwtToken;
 
     if (!token) {
       return Send.unauthorized(res, null);

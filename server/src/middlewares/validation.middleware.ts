@@ -17,7 +17,7 @@ class ValidationMiddleware {
             }
             formattedErrors[field].push(err.message);
           });
-          return Send.error(res, formattedErrors);
+          return Send.validationError(res, formattedErrors);
         }
         return Send.error(res, null, "Invalid request data");
       }

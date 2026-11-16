@@ -1,5 +1,7 @@
 server/node_modules
 frontend/node_modules
+frontend/.env
+server/.env
 doc/*
 server/.agents
 server/.claude

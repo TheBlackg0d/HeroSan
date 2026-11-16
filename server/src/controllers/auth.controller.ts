@@ -28,19 +28,9 @@ class AuthController {
 
       await AuthService.saveRefreshToken(user, refreshToken);
 
-      res.cookie("accessToken", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
-      });
+      await AuthService.setJwtTokenCookie(res, token);
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 24 * 60 * 60 * 1000, // 7 days
-      });
+      await AuthService.setRefreshTokenCookie(res, refreshToken);
 
       return Send.success(res, { id: user.id, email: user.email });
     } catch (error) {
@@ -63,6 +53,15 @@ class AuthController {
 
       const newUser = await AuthService.registerUser(email, password);
 
+      await AuthService.setJwtTokenCookie(
+        res,
+        AuthService.generateToken(newUser),
+      );
+      await AuthService.setRefreshTokenCookie(
+        res,
+        AuthService.generateRefreshToken(newUser),
+      );
+
       return Send.success(
         res,
         { id: newUser.id, email: newUser.email },
@@ -82,7 +81,7 @@ class AuthController {
         await AuthService.removeRefreshToken(userId);
       }
 
-      res.clearCookie("accessToken");
+      res.clearCookie("jwtToken");
       res.clearCookie("refreshToken");
       return Send.success(res, null, "Logout Successful");
     } catch (error) {
@@ -108,12 +107,11 @@ class AuthController {
 
       const newAccessToken = AuthService.generateToken(user);
 
-      res.cookie("accessToken", newAccessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
-      });
+      await AuthService.setJwtTokenCookie(res, newAccessToken);
+      await AuthService.setRefreshTokenCookie(
+        res,
+        AuthService.generateRefreshToken(user),
+      );
 
       return Send.success(
         res,
