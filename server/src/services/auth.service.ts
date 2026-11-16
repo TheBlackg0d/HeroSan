@@ -13,7 +13,6 @@ class AuthService {
   }
 
   static generateRefreshToken(user: User) {
-    console.log(authConfig);
     return jwt.sign({ userId: user.id }, authConfig.refresh_secret, {
       expiresIn: authConfig.refresh_expires_in as any,
     });

@@ -1,5 +1,6 @@
 import type { MutationFunc } from "../types";
 import type { User } from "../user/user.type";
+import type { ApiResponse } from "../types";
 
 export type LoginRequest = {
   email: string;
@@ -13,4 +14,4 @@ export type RegisterRequest = {
   terms: boolean;
 };
 
-export type AuthMutation = MutationFunc<User>;
+export type AuthMutation = MutationFunc<ApiResponse<User>>;

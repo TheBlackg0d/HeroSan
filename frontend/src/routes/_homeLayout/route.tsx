@@ -1,30 +1,16 @@
+import { refreshToken } from "#/api/auth/auth.requests.ts";
+import AuthService from "#/service/auth.service.ts";
 import { Header } from "#/components/dashboard/Header.tsx";
 import { SideBar } from "#/components/dashboard/SideBar.tsx";
+import { useAuthStore } from "#/store/auth.ts";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { getUserQueryOptions } from "#/api/user/user.keys.ts";
 
 export const Route = createFileRoute("/_homeLayout")({
   component: RouteComponent,
-  beforeLoad: async ({ context, location }) => {
-    try {
-      const user = await context.queryClient.query(getUserQueryOptions());
-      if (!user) {
-        throw redirect({
-          to: "/login",
-          search: {
-            redirect: location.href,
-          },
-        });
-      }
-    } catch (error) {
-      throw redirect({
-        to: "/login",
-        search: {
-          redirect: location.href,
-        },
-      });
-    }
+  beforeLoad: async () => {
+    const isAuthenticated = await AuthService.authenticate();
+
+    if (!isAuthenticated) throw redirect({ to: "/login", replace: true });
   },
 });
 

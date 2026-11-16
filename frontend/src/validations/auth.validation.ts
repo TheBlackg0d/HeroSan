@@ -15,7 +15,7 @@ const emailSchema = z.email("Invalid email address");
 
 const loginSchema = z.object({
   email: emailSchema,
-  password: passwordSchema,
+  password: z.string().min(1, "Password is required"),
 });
 
 const registerSchema = z

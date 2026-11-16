@@ -16,11 +16,11 @@ class AuthController {
       });
 
       if (!user) {
-        return Send.error(res, null, "Invalid credidentials");
+        return Send.unauthorized(res, null, "Invalid credidentials");
       }
 
       if (!(await AuthService.isPasswordValid(user, password))) {
-        return Send.error(res, null, "Invalid credidentials");
+        return Send.unauthorized(res, null, "Invalid credidentials");
       }
 
       const token = AuthService.generateToken(user);
@@ -32,7 +32,7 @@ class AuthController {
 
       await AuthService.setRefreshTokenCookie(res, refreshToken);
 
-      return Send.success(res, { id: user.id, email: user.email });
+      return Send.success(res, { id: user.id, email: user.email, token });
     } catch (error) {
       console.error(error);
       return Send.error(res, null, "Login Failed ");
@@ -48,23 +48,23 @@ class AuthController {
       const existingUser = await UserService.findUserByEmail(email);
 
       if (existingUser) {
-        return Send.error(res, null, "Email already in use");
+        return Send.unauthorized(res, null, "Email already in use");
       }
 
       const newUser = await AuthService.registerUser(email, password);
 
-      await AuthService.setJwtTokenCookie(
-        res,
-        AuthService.generateToken(newUser),
-      );
-      await AuthService.setRefreshTokenCookie(
-        res,
-        AuthService.generateRefreshToken(newUser),
-      );
+      const token = AuthService.generateToken(newUser);
+
+      await AuthService.setJwtTokenCookie(res, token);
+
+      const refreshToken = AuthService.generateRefreshToken(newUser);
+      await AuthService.saveRefreshToken(newUser, refreshToken);
+
+      await AuthService.setRefreshTokenCookie(res, refreshToken);
 
       return Send.success(
         res,
-        { id: newUser.id, email: newUser.email },
+        { id: newUser.id, email: newUser.email, token },
         "Registration Successful",
       );
     } catch (error) {
@@ -108,10 +108,9 @@ class AuthController {
       const newAccessToken = AuthService.generateToken(user);
 
       await AuthService.setJwtTokenCookie(res, newAccessToken);
-      await AuthService.setRefreshTokenCookie(
-        res,
-        AuthService.generateRefreshToken(user),
-      );
+      const newRefreshToken = AuthService.generateRefreshToken(user);
+      await AuthService.saveRefreshToken(user, newRefreshToken);
+      await AuthService.setRefreshTokenCookie(res, newRefreshToken);
 
       return Send.success(
         res,

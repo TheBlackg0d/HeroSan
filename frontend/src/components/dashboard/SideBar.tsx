@@ -2,11 +2,14 @@ import { Link } from "@tanstack/react-router";
 import {
   ChevronsUpDown,
   LayoutGrid,
+  LogOut,
   Settings,
-  Shield,
   SquareTerminal,
 } from "lucide-react";
 import type React from "react";
+import { useAuthStore } from "#/store/auth.ts";
+import { UserAvatar } from "../shared/UserAvatar";
+import { useLogoutMutation } from "#/api/auth/auth.hooks.ts";
 
 export function SideBar() {
   return (
@@ -39,13 +42,18 @@ export function SideBar() {
 function SideBarFooter() {
   return (
     <div className="flex flex-col border-t border-outline-variant/20 bg-surface-container-low/80">
-      <CurrentCluster />
+      <LogoutButton />
       <CurrentUser />
     </div>
   );
 }
 
 function CurrentUser() {
+  const authStore = useAuthStore();
+  const currentUser = authStore.currentUser;
+
+  if (!currentUser) return null;
+
   return (
     <div className="p-space-md border-t border-outline-variant/20">
       <Link
@@ -53,14 +61,16 @@ function CurrentUser() {
         className="group flex items-center justify-between p-space-xs rounded-lg hover:bg-surface-container transition-colors"
       >
         <div className="flex items-center gap-space-sm min-w-0">
-          <img
-            alt="Profile"
-            className="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant/50"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkz5kKbeABhodKvTFayxO6JQiKY87ZjOHKDpKloPVtTQW8s5j5x0yo8hdEYEc2y8NIS0R4tzh4YjgWtJjg2_1VRSIHZaUW9QJq1Hi-HassTdAftxmVqeDB2ClsY5REyEsMYw2afFTGsD7ANxCy9UgNdiQ1WbVM-VITvkDEV3ROP5ikGpeMHRFCmbDtUfdL2iOkVXU918dtISPsQNyIWZNs3OYowwrETsIpg6sIA4vV"
+          <UserAvatar
+            user={{
+              id: currentUser.id,
+              email: currentUser.email,
+              avatarUrl: currentUser.avatarUrl,
+            }}
           />
           <div className="flex flex-col min-w-0">
             <span className="font-body-md text-body-md font-medium text-on-surface group-hover:text-primary transition-colors truncate">
-              alex.dev
+              {currentUser.email}
             </span>
             <span className="font-code-sm text-code-sm text-outline truncate">
               edge-us-east-1
@@ -76,27 +86,22 @@ function CurrentUser() {
   );
 }
 
-function CurrentCluster() {
+function LogoutButton() {
+  const { mutate, isPending } = useLogoutMutation();
+
   return (
     <div className="px-space-md py-space-sm">
-      <nav
-        className="flex flex-col"
-        data-active-classes="bg-primary-container/20 text-primary border-l-2 border-primary font-medium"
+      <button
+        type="button"
+        onClick={() => mutate()}
+        disabled={isPending}
+        className="w-full flex items-center gap-space-sm px-space-sm py-space-sm rounded text-on-surface-variant hover:bg-error-container/20 hover:text-error transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <Link
-          className="flex items-center justify-between px-space-sm py-space-sm rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
-          data-path="admin"
-          to="."
-        >
-          <div className="flex items-center gap-space-sm">
-            <Shield size={18} />
-            <span className="font-body-md text-body-md">Admin</span>
-          </div>
-          <span className="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant border border-outline-variant/40">
-            Cluster Admin
-          </span>
-        </Link>
-      </nav>
+        <LogOut size={18} />
+        <span className="font-body-md text-body-md">
+          {isPending ? "Logging out..." : "Log out"}
+        </span>
+      </button>
     </div>
   );
 }

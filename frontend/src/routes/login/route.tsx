@@ -1,16 +1,16 @@
-import { getUserQueryOptions } from "#/api/user/user.keys.ts";
+import { useAuthStore } from "#/store/auth.ts";
+import AuthService from "#/service/auth.service.ts";
 import { LoginBox } from "#/components/login/LoginBox.tsx";
 import { AuthLayout } from "#/layout/AuthLayout.tsx";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
-  beforeLoad: async ({ context }) => {
-    const res = await context.queryClient
-      .query(getUserQueryOptions())
-      .catch(() => null);
-    if (res?.ok) {
-      throw redirect({ to: "/" });
+  beforeLoad: async () => {
+    const isAuthenticated = await AuthService.authenticate();
+
+    if (isAuthenticated) {
+      throw redirect({ to: "/", replace: true });
     }
   },
 });
