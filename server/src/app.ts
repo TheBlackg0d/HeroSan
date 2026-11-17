@@ -4,7 +4,7 @@ import cors from "cors";
 import authRoutes from "@routes/auth.routes";
 import userRoutes from "@routes/user.routes";
 import appConfig from "@config/app.config";
-
+import appRoutes from "@routes/app.routes";
 class App {
   private app: Express;
 
@@ -29,6 +29,7 @@ class App {
   private initRoutes(): void {
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/user", userRoutes);
+    this.app.use("/api/apps", appRoutes);
   }
 
   public start() {

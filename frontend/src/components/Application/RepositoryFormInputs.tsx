@@ -1,11 +1,18 @@
 import {
+  Check,
   Copy,
   FolderArchive,
   FolderCode,
   GitFork,
   Terminal,
 } from "lucide-react";
+import { ErrorMessage, useFormContext } from "react-hook-form";
 import { ApplicationSectionHeader } from "./ApplicationSectionHeader";
+import { InputError } from "../shared/InputError";
+import type { CreateAppFormValues } from "#/validations/app.create.validation.ts";
+import { useCopyToClipboard } from "#/hooks/useCopyToClipboard.ts";
+
+const inputErrorStyling = "ring-1 ring-error focus:ring-error";
 
 export function RepositoryFormInputs() {
   return (
@@ -15,12 +22,9 @@ export function RepositoryFormInputs() {
         step="1"
         icon={<FolderCode size={20} className="text-primary" />}
       />
-      {/* <!-- Field 1: Git Repository URL --> */}
       <RepositoryUrlInput />
-      {/* <!-- Field 2: Git Branch & Trigger Config --> */}
-      <div className="flex gap-space-md">
+      <div className="flex flex-col md:flex-row gap-space-md">
         <BranchInput />
-        {/* <!-- Field 3: Root Directory --> */}
         <RootDirectoryInput />
       </div>
     </section>
@@ -28,6 +32,15 @@ export function RepositoryFormInputs() {
 }
 
 function RepositoryUrlInput() {
+  const {
+    register,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext<CreateAppFormValues>();
+  const repoUrl = watch("repoUrl");
+  const { copied, copy } = useCopyToClipboard();
+
   return (
     <div className="flex flex-col gap-1.5">
       <label
@@ -42,22 +55,30 @@ function RepositoryUrlInput() {
           <Terminal size={16} />
         </div>
         <input
-          className="w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md pl-10 pr-24 py-2.5 rounded-lg focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary shadow-inner transition-all placeholder:text-outline"
+          className={`w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md pl-10 pr-24 py-2.5 rounded-lg focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary shadow-inner transition-all placeholder:text-outline ${errors.repoUrl ? inputErrorStyling : ""}`}
           id="git-repo-url"
           placeholder="https://github.com/user/project.git"
           type="text"
-          value="https://github.com/acme-corp/payment-service.git"
+          aria-invalid={!!errors.repoUrl}
+          {...register("repoUrl")}
         />
         <div className="absolute right-2 flex items-center gap-1">
           <button
-            className="px-2 py-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1 font-code-sm text-code-sm"
+            className="px-2 py-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1 font-code-sm text-code-sm disabled:opacity-50"
             title="Copy to clipboard"
             type="button"
+            disabled={!repoUrl}
+            onClick={() => copy(repoUrl)}
           >
-            <Copy size={14} />
+            {copied ? <Check size={14} /> : <Copy size={14} />}
           </button>
         </div>
       </div>
+      <ErrorMessage
+        control={control}
+        name="repoUrl"
+        render={({ message }) => <InputError message={message} />}
+      />
       <span className="font-body-sm text-body-sm text-outline">
         HTTPS clone URL. Public repositories under GitHub
       </span>
@@ -66,8 +87,14 @@ function RepositoryUrlInput() {
 }
 
 function BranchInput() {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext<CreateAppFormValues>();
+
   return (
-    <div className="flex flex-col gap-1.5 md:col-span-2 grow">
+    <div className="flex flex-col gap-1.5 grow">
       <label
         className="font-label-md text-label-md font-medium text-on-surface flex items-center gap-space-xs"
         htmlFor="git-branch"
@@ -77,15 +104,21 @@ function BranchInput() {
       </label>
       <div className="relative flex items-center">
         <input
-          className="w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md pl-3 pr-24 py-2 rounded-lg focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary shadow-inner transition-all"
+          className={`w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md pl-3 pr-24 py-2 rounded-lg focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary shadow-inner transition-all ${errors.branch ? inputErrorStyling : ""}`}
           id="git-branch"
           type="text"
-          value="main"
+          aria-invalid={!!errors.branch}
+          {...register("branch")}
         />
         <span className="absolute right-2 font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-medium">
           HEAD (Auto)
         </span>
       </div>
+      <ErrorMessage
+        control={control}
+        name="branch"
+        render={({ message }) => <InputError message={message} />}
+      />
       <span className="font-body-sm text-body-sm text-outline">
         Continuous deployment triggers automatically on webhook pushes to this
         branch.
@@ -95,16 +128,32 @@ function BranchInput() {
 }
 
 function RootDirectoryInput() {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext<CreateAppFormValues>();
+
   return (
-    <div className="flex flex-col gap-1.5  grow-3">
-      <label className="font-label-md text-label-md font-medium text-on-surface flex items-center gap-space-xs">
+    <div className="flex flex-col gap-1.5 grow-3">
+      <label
+        className="font-label-md text-label-md font-medium text-on-surface flex items-center gap-space-xs"
+        htmlFor="root-directory"
+      >
         <FolderArchive size={16} />
         <span>Root Directory</span>
       </label>
       <input
-        className="w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md px-3 py-2 rounded-lg focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary shadow-inner transition-all font-mono"
+        className={`w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md px-3 py-2 rounded-lg focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary shadow-inner transition-all font-mono ${errors.rootDirectory ? inputErrorStyling : ""}`}
+        id="root-directory"
         type="text"
-        value="./"
+        aria-invalid={!!errors.rootDirectory}
+        {...register("rootDirectory")}
+      />
+      <ErrorMessage
+        control={control}
+        name="rootDirectory"
+        render={({ message }) => <InputError message={message} />}
       />
       <span className="font-body-sm text-body-sm text-outline">
         Workspace base directory.

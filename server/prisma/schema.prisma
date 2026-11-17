@@ -20,4 +20,30 @@ model User {
   refreshToken String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  apps     App[]
+}
+
+model App {
+  id        String   @id @default(uuid())
+  name      String
+  repoUrl   String
+  containerPort Int
+  branch    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deployments Deployment[]
+}
+
+model Deployment {
+  id        String   @id @default(uuid())
+  app       App      @relation(fields: [appId], references: [id])
+  appId     String
+  status    String
+  commitHash String
+  imageTag   String
+  errorMessage String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

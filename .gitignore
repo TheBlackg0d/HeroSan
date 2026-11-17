@@ -10,3 +10,4 @@ server/dist
 server/.env
 server/.devin
 server/.windsurf
+server/src/generated/

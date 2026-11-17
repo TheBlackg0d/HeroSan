@@ -55,7 +55,7 @@ function HeaderActions() {
       <Link
         className="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-primary-container hover:bg-inverse-primary text-on-primary font-headline-sm text-headline-sm transition-all shadow-[0_0_12px_rgba(77,142,255,0.35)] hover:shadow-[0_0_16px_rgba(77,142,255,0.5)] active:scale-[0.99]"
         data-path="new-app"
-        to="."
+        to="/app/create"
       >
         <Plus size={18} />
         <span>New App</span>
